@@ -15,3 +15,7 @@ class ChallengeDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Challenge
         fields = ('title', 'description', 'category', 'hints', 'score')
+
+
+class SubmitFlagSerializer(serializers.Serializer):
+    flag = serializers.CharField(required=True)
