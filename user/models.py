@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Permission, Group
 from django.db import models
 
+from challenges.models import Challenge
+
 
 class CustomUserManager(BaseUserManager):
     def _create_user(self, email, username, password=None, **extra_fields):
@@ -30,12 +32,13 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    name = models.CharField(max_length=255, null=True)
+    name = models.CharField(max_length=255, blank=True, null=True)
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=255, unique=True)
     password = models.CharField(max_length=128)
     bio = models.TextField(blank=True)
     admin = models.BooleanField(default=False)
+    challenges = models.ManyToManyField(Challenge, related_name='users')
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
