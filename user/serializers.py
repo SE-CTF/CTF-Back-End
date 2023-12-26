@@ -13,14 +13,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        user = CustomUser.objects.create_user(
-            email=validated_data['email'],
-            username=validated_data['username'],
-            password=validated_data['password'],
-            name=validated_data.get('name', ''),
-            bio=validated_data.get('bio', ''),
-            admin=validated_data.get('admin', False)
-        )
+        user = CustomUser.objects.create_user(**validated_data)
         return user
 
     def update(self, instance, validated_data):
