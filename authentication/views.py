@@ -1,7 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework.decorators import permission_classes, api_view
+from rest_framework.permissions import IsAuthenticated
 
 from user.models import CustomUser
 from user.serializers import CustomUserSerializer
@@ -30,11 +32,11 @@ class SignupView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
-        refresh = RefreshToken.for_user(user)
+        access = AccessToken.for_user(user)
         response_user = CustomUserSerializer(instance=user)
         response = {
             "user": response_user.data,
-            "access": str(refresh.access_token),
+            "access": str(access),
         }
         return Response(
             data=response,
@@ -65,10 +67,10 @@ class LoginView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
-        refresh = RefreshToken.for_user(user)
+        access = AccessToken.for_user(user)
         serialized_user = CustomUserSerializer(instance=user)
         response = {
             "user": serialized_user.data,
-            "access": str(refresh.access_token),
+            "access": str(access),
         }
         return Response(data=response, status=status.HTTP_200_OK)
