@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db import models
 
 from challenges.models import Challenge
+from django.contrib.auth.hashers import make_password
 
 
 class CustomUserManager(BaseUserManager):
@@ -10,7 +11,7 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('The Email field must be set')
         email = self.normalize_email(email)
         user = self.model(email=email, username=username, **extra_fields)
-        user.set_password(password)
+        user.password = make_password(password)
         user.save(using=self._db)
         return user
 
@@ -38,7 +39,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     password = models.CharField(max_length=128)
     bio = models.TextField(blank=True)
     admin = models.BooleanField(default=False)
-    challenges = models.ManyToManyField(Challenge, related_name='users')
+    challenges = models.ManyToManyField(
+        Challenge, related_name='users', blank=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
