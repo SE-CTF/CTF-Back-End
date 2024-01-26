@@ -6,10 +6,9 @@ class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['id', 'name', 'email',
-                  'username', 'password', 'bio', 'admin']
+                  'username', 'password', 'bio']
         extra_kwargs = {
             'password': {'write_only': True},
-            'admin': {'write_only': True}
         }
 
     def create(self, validated_data):
@@ -21,7 +20,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
         instance.email = validated_data.get('email', instance.email)
         instance.username = validated_data.get('username', instance.username)
         instance.bio = validated_data.get('bio', instance.bio)
-        instance.admin = validated_data.get('admin', instance.admin)
 
         password = validated_data.get('password')
         if password:
