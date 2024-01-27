@@ -6,7 +6,7 @@ class ChallengeListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Challenge
-        fields = ('title', 'score', 'category')
+        fields = ('id', 'title', 'score', 'category')
 
 
 class ChallengeDetailSerializer(serializers.ModelSerializer):
@@ -14,7 +14,7 @@ class ChallengeDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Challenge
-        fields = ('title', 'description', 'category', 'hints', 'score')
+        fields = ('id', 'title', 'description', 'category', 'hints', 'score')
 
 
 class SubmitFlagSerializer(serializers.Serializer):
