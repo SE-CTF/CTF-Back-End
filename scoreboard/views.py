@@ -10,11 +10,6 @@ from rest_framework import status
 from user.models import CustomUser
 
 
-class ScoreboardPagination(LimitOffsetPagination):
-    default_limit = 10
-    max_limit = 100
-
-
 class Scoreboard(APIView):
     def get(self, request):
         try:
@@ -22,10 +17,6 @@ class Scoreboard(APIView):
                 score=Coalesce(Sum('challenges__score'), Value(0))
             ).values('username', 'score')
 
-            paginator = ScoreboardPagination()
-            paginated_scores = paginator.paginate_queryset(
-                user_scores, request)
-
-            return paginator.get_paginated_response(paginated_scores)
+            return Response(data=user_scores, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(data={"error": "An unexpected error occurred. Please try again later."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
