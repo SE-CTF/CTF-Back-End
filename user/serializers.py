@@ -3,10 +3,12 @@ from .models import CustomUser
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
+    challenges = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+
     class Meta:
         model = CustomUser
         fields = ['id', 'name', 'email',
-                  'username', 'password', 'bio']
+                  'username', 'password', 'bio', 'challenges']
         extra_kwargs = {
             'password': {'write_only': True},
         }
