@@ -38,7 +38,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True)
     password = models.CharField(max_length=128)
     bio = models.TextField(blank=True)
-    admin = models.BooleanField(default=False)
     challenges = models.ManyToManyField(
         Challenge, related_name='users', blank=True)
 
