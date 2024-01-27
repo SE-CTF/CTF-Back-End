@@ -38,6 +38,9 @@ class ChallengeDetail(APIView):
             return Response(data={'error': 'Authentication required.'},
                             status=status.HTTP_401_UNAUTHORIZED)
 
+        if request.user.challenges.filter(id=pk).exists():
+            return Response(data={'error': 'Already solved'}, status=status.HTTP_400_BAD_REQUEST)
+
         flag_serializer = SubmitFlagSerializer(data=request.data)
         if not flag_serializer.is_valid():
             return Response(
