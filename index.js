@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 
 app.post('/forums', jwt.authenticateToken, async (req, res) => {
     const data = req.body
-    console.log(data)
+    data.author = req.user.user
 
     const new_content = new db.Content(data)
 
