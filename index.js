@@ -14,12 +14,15 @@ app.use(morgan('tiny'))
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 
+const jwt = require('./jwt')
+
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
-app.post('/forums', async (req, res) => {
+app.post('/forums', jwt.authenticateToken, async (req, res) => {
     const data = req.body
+    console.log(data)
 
     const new_content = new db.Content(data)
 
@@ -54,7 +57,7 @@ app.post('/forums/:_id/comments', async (req, res) => {
     }
 
     content.comments.push(dataBody.comment)
-    
+
     res.status(200).send(await content.save())
 })
 
