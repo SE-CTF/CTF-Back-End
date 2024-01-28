@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  ctf_db:
+  db:
     image: postgres:14.2
     restart: unless-stopped
     container_name: ctf_db
@@ -28,7 +28,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     depends_on:
-      - ctf_db
+      - db
     networks:
       - ctf_network
 
@@ -38,13 +38,13 @@ services:
     restart: unless-stopped
     container_name: sonarqube
     depends_on:
-      - ctf_db
+      - db
     ports:
       - "9000:9000"
     networks:
       - ctf_network
     environment:
-      - SONARQUBE_JDBC_URL=jdbc:postgresql://ctf_db:5432/sonar_db
+      - SONARQUBE_JDBC_URL=jdbc:postgresql://db:5432/sonar_db
       - SONARQUBE_JDBC_USERNAME=${POSTGRES_USER}
       - SONARQUBE_JDBC_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
@@ -57,9 +57,9 @@ networks:
   ctf_network:
     driver: bridge
 
-volumes:
-  sonarqube_bundled-plugins:
-  sonarqube_conf:
-  sonarqube_data:
-  sonarqube_db:
-  sonarqube_extensions:
+# volumes:
+#   sonarqube_bundled-plugins:
+#   sonarqube_conf:
+#   sonarqube_data:
+#   sonarqube_db:
+#   sonarqube_extensions:
