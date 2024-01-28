@@ -133,3 +133,5 @@ data/*
 
 # sttic files
 files
+
+node_modules
