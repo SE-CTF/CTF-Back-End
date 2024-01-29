@@ -2,4 +2,6 @@ Django==4.2.8
 psycopg2>=2.8
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.1
-Pillow
+django-cors-headers
+drf-spectacular
+drf-spectacular-sidecar
